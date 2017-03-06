@@ -29,7 +29,7 @@
 
 - (IBAction)requestAction:(id)sender {
     // 创建一个网络路径
-    NSURL *url = [NSURL URLWithString:@"http://localhost:4000/struct/index.php?ctl=api"];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:4000/AESSecurity-PHP/index.php"];
     
     // 创建一个网络请求
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
