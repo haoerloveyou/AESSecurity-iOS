@@ -59,4 +59,37 @@
     [sessionDataTask resume];
 }
 
+- (IBAction)uploadAction:(id)sender {
+    // 创建一个网络路径
+    NSURL *url = [NSURL URLWithString:@"http://localhost:4000/AESSecurity-PHP/index.php?act=upload"];
+    
+    // 创建一个网络请求
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *content = @"我是一段加密的内容";
+    
+    content = [NSString encrypyAES:content key:@"zq9GFxgbh9nWFdjO"];
+    
+    NSDictionary *params = @{@"post" : content};
+    
+    NSData *data= [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:nil];
+
+    [request setHTTPBody:data];
+    
+    // 获得会话对象
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    // 根据会话对象，创建一个Task任务
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!error) {
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"Response data: %@", dic);
+        }
+    }];
+    
+    [sessionDataTask resume];
+}
+
 @end
